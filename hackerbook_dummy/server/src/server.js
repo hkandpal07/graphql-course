@@ -4,34 +4,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { makeExecutableSchema } = require('graphql-tools');
 const { graphql } =  require('graphql')
-
-const typeDefs =  `
-    schema {
-        query: Query
-    }
-    # root query for **Hello World Server**
-    type Query {
-        # Says *hello world*
-        hello: String
-        """
-        Multiline docs
-        about name
-        in triple quotes
-        """
-        name: String
-    }
-`;
-
-const resolvers = {
-    Query: {
-        hello: () => {
-            return 'World';
-        },
-        name: () => {
-            return 'Harshit'
-        }
-    }
-}
+const typeDefs = require('./typedefs');
+const resolvers = require('./resolvers');
 
 const schema = makeExecutableSchema({typeDefs, resolvers})
 
