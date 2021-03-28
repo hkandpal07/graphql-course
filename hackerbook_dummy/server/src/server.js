@@ -6,13 +6,24 @@ const { makeExecutableSchema } = require('graphql-tools');
 const { graphql } =  require('graphql')
 const typeDefs = require('./typedefs');
 const resolvers = require('./resolvers');
+const loaders = require('./loader')
 
 const schema = makeExecutableSchema({typeDefs, resolvers})
 
 const app = express(); //create http server using express
 
 app.use(cors()); //add cors support to the http server 
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema })); //set single endpoint for graphql requests
+app.use('/graphql', 
+    bodyParser.json(), 
+    graphqlExpress(() => { 
+        return {
+            schema,
+            context: {
+                loaders: loaders()
+            } 
+        }
+    })
+); //set single endpoint for graphql requests
 
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); //set up graphiql to point to graphql enpoint
 
