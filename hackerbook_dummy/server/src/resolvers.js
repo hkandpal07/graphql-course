@@ -6,7 +6,7 @@ const resolvers = {
        imageUrl: (book, { size }) => {
             return imageUrl(size, book.googleId);
        },
-       authors: (book, args, context) => {
+       authors: (book, args, context) => {       // all resolvers get these 3 parameters; parent query type, args, and context
            const { loaders } = context;
            const { findAuthorsByBookIdsLoader } = loaders;
 
@@ -28,11 +28,11 @@ const resolvers = {
         }
     },
     Query: {
-        books: () => {
-            return allBooks();
+        books: (root, args) => {
+            return allBooks(args);
         },
-        reviews: () => {
-            return allReviews();
+        reviews: (root, args) => {
+            return allReviews(args);
         }
     }
 }

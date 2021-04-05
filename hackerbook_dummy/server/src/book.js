@@ -2,9 +2,15 @@ const DataLoader = require('dataloader');
 const { groupBy, map } = require('ramda');
 const query = require('./db');
 
-const allBooks = async () => {
+const ORDER_BY = {                  //mapper for order by clause
+    ID_DESC: 'id desc',
+    RATING_DESC: 'rating desc'
+};
+
+const allBooks = async (args) => {
+    const orderBy = ORDER_BY[args.orderBy];
     const sql = `
-        select * from hb.book
+        select * from hb.book order by ${orderBy}
     `;
 
     try {

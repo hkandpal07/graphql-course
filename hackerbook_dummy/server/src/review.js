@@ -1,8 +1,15 @@
 const query = require('./db');
 
-const allReviews = async() => {
+const ORDER_BY = {
+    ID_ASC: 'id asc',
+    ID_DESC: 'id desc'
+};
+
+const allReviews = async(args) => {
+    const orderBy = ORDER_BY[args.orderBy];
+
     const sql = `
-        select * from hb.review;
+        select * from hb.review order by ${orderBy};
     `;
 
     try {
