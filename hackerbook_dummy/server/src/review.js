@@ -49,7 +49,24 @@ const findReviewsByBookIdsLoader = () => {
     return new DataLoader(findReviewsByBookIds);
 }
 
+const createReview = async(reviewInput) => {
+    const { bookId, email, name, rating, title, comment } = reviewInput;
+    const sql = `
+        select * from hb.create_review($1, $2, $3, $4, $5, $6)
+    `;
+    const params = [bookId, email, name, rating, title, comment];
+
+    try {
+        const result = await query(sql, params);
+        return result.rows[0];
+    } catch(err) {
+        console.log(err);
+        throw err;
+    }
+}
+
 module.exports = {
     allReviews,
-    findReviewsByBookIdsLoader
+    findReviewsByBookIdsLoader,
+    createReview
 };

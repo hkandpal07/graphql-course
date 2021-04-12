@@ -1,6 +1,6 @@
 const gravatar = require('gravatar');
 const { allBooks, imageUrl }  = require('./book');
-const { allReviews } = require('./review');
+const { allReviews, createReview } = require('./review');
 
 const resolvers = {
     User: {
@@ -48,6 +48,12 @@ const resolvers = {
             const { loaders } = context;
             const { findBooksByIdsLoader } = loaders;
             return findBooksByIdsLoader.load(args.id); 
+        }
+    },
+    Mutation: {
+        createReview: (root, args) => {
+            const { reviewInput } = args;
+            return createReview(reviewInput);
         }
     }
 }

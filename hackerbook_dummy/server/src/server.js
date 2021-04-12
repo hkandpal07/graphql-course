@@ -3,7 +3,6 @@ const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { makeExecutableSchema } = require('graphql-tools');
-const { graphql } =  require('graphql')
 const typeDefs = require('./typedefs');
 const resolvers = require('./resolvers');
 const loaders = require('./loader')
