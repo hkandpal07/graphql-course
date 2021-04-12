@@ -1,12 +1,19 @@
 const gravatar = require('gravatar');
-const { allBooks, imageUrl }  = require('./book');
+const { allBooks, imageUrl, searchBook, createBook }  = require('./book');
 const { allReviews, createReview } = require('./review');
+const { search } = require('./search');
 
 const resolvers = {
     User: {
         imageUrl: (user, args) => {
             return gravatar.url(user.email, { s: args.size })
         }
+    },
+    SearchBookResult: {
+        imageUrl: (result, args) => imageUrl(args.size, result.id)
+    },
+    SearchResult: {
+        __resolveType: obj => obj.__type,
     },
     Book: {
         imageUrl: (book, { size }) => {
@@ -48,12 +55,24 @@ const resolvers = {
             const { loaders } = context;
             const { findBooksByIdsLoader } = loaders;
             return findBooksByIdsLoader.load(args.id); 
+        },
+        searchBook: (root, args) => {
+            const { query } = args;
+            return searchBook(query);
+        },
+        search: (root, args) => {
+            const { query } = args;
+            return search(query);
         }
     },
     Mutation: {
         createReview: (root, args) => {
             const { reviewInput } = args;
             return createReview(reviewInput);
+        },
+        createBook: (root, args) => {
+            const { googleBookId } = args;
+            return createBook(googleBookId);
         }
     }
 }

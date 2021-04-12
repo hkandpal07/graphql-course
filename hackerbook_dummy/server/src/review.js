@@ -52,7 +52,7 @@ const findReviewsByBookIdsLoader = () => {
 const createReview = async(reviewInput) => {
     const { bookId, email, name, rating, title, comment } = reviewInput;
     const sql = `
-        select * from hb.create_review($1, $2, $3, $4, $5, $6)
+        select * from hb.create_review($1, $2, $3, $4, $5, $6);
     `;
     const params = [bookId, email, name, rating, title, comment];
 

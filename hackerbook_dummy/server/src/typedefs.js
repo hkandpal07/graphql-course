@@ -7,9 +7,12 @@ type Query {
     books(orderBy: BooksOrderBy = RATING_DESC): [Book]
     reviews(orderBy: ReviewsOrderBy = ID_DESC): [Review]
     book(id: ID!): Book
+    searchBook(query: String!): [SearchBookResult]
+    search(query: String!): [SearchResult]
 }
 type Mutation {
-    createReview(reviewInput: ReviewInput!): Review 
+    createReview(reviewInput: ReviewInput!): Review
+    createBook(googleBookId: ID!): Book
 }
 input ReviewInput {
     bookId: ID!
@@ -47,6 +50,14 @@ type Author {
     id: ID!
     name: String
 }
+type SearchBookResult {
+    id: ID!
+    title: String
+    description: String
+    authors: [String]
+    imageUrl(size: ImageSize = LARGE): String
+}
+union SearchResult = Book | Review | Author | User
 enum ImageSize {
     SMALL
     LARGE
